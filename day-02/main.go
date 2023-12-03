@@ -50,7 +50,7 @@ func main() {
 	// https://stackoverflow.com/questions/25691879
 	lines := bytes.Split(data, []byte("\n"))
 	// Sum of gameNums that satisfy conditions
-	var gameNumTotal int
+	var gameNumTotal, gameSetTotal int
 	var impossible bool
 	// Each 'line' is a game
 	for _, line := range lines {
@@ -64,6 +64,12 @@ func main() {
 
 		impossible = false
 		// Decision is by set, not by game
+		var setMax = map[string]int{
+			"red":   0,
+			"green": 0,
+			"blue":  0,
+		}
+
 		for _, set := range bytes.Split(sets, []byte(";")) {
 			m := make(map[string]int)
 			_ = m
@@ -71,7 +77,11 @@ func main() {
 				colorMap := patternToMap(patterns["color"], color)
 				count, err := strconv.Atoi(string(colorMap["count"]))
 				p(err)
-				m[string(colorMap["color"])] = count
+				c := string(colorMap["color"])
+				m[c] = count
+				if m[c] > setMax[c] {
+					setMax[c] = m[c]
+				}
 			}
 			if m["red"] > redCubes ||
 				m["green"] > greenCubes ||
@@ -80,11 +90,11 @@ func main() {
 			}
 		}
 
-		if gameNum == 3 {
-		}
 		if !impossible {
 			gameNumTotal += gameNum
 		}
+
+		gameSetTotal += mapProduct(setMax)
 
 		/*
 			for _, color := range bytes.Split(sets, []byte(",")) {
@@ -121,11 +131,22 @@ func main() {
 			}
 		*/
 	}
-	fmt.Println(gameNumTotal)
+	fmt.Println(gameSetTotal)
 }
 
 func p(err error) {
 	if err != nil {
 		log.Panic(err)
 	}
+}
+
+func mapProduct(m map[string]int) int {
+	var total int = 1
+	if len(m) == 0 {
+		return 0
+	}
+	for _, v := range m {
+		total *= v
+	}
+	return total
 }
