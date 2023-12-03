@@ -9,8 +9,8 @@ import (
 	"strconv"
 )
 
-// const file = "03_input.txt"
-const file = "03_sample.txt"
+// const file = "03_sample.txt"
+const file = "03_input.txt"
 
 const pattern = "([[:digit:]]{1,})"
 
@@ -23,11 +23,6 @@ type Range [2]int
 type Foo struct {
 	y    int
 	span Range
-}
-
-func (r Range) points() []Point {
-	var result []Point
-	return result
 }
 
 func ContainsPoint(points []Point, point Point) bool {
@@ -70,9 +65,6 @@ func (r Range) adjacency() []Point {
 
 }
 
-// matchFunc expects to take in a 2D array of data, perform calculations on that data, and return a result
-type matchFunc func(re *regexp.Regexp, data [][]byte) int
-
 // adjacency generates the []Point surrounding a Point
 func (p Point) adjacency() []Point {
 	// func adjacency(point Point) []Point {
@@ -86,49 +78,6 @@ func (p Point) adjacency() []Point {
 			}
 		}
 	}
-	return result
-}
-
-/*
-adjacencyFunc determines adjacent 2D indices based on provided continuous indices and dimensions of original dataset.
-Ignores values in rows above original. Positions are transformed from linear to 2D and thus are relative
-*/
-func adjacencyFunc(span []int, isTop, isBottom, isRight, isLeft bool) [][]int {
-
-	// [0, 3] expands to [0, 0], [1, 0], [2, 0]
-	var result [][]int
-
-	if !isTop {
-		// [0, 3] -> [0, -1], [1, -1], [2, -1]
-	}
-	if !isBottom {
-		// [0, 3] -> [0, 1], [1, 1], [2, 1]
-	}
-	if !isRight {
-		// [0, 3] -> [3, 0]
-	}
-
-	if !isLeft {
-		// [0, 3] -> [-1, 0]
-	}
-
-	// Corners
-	if !isTop && !isLeft {
-
-	}
-	if !isTop && !isRight {
-
-	}
-	if !isBottom && !isLeft {
-
-	}
-	if !isBottom && !isRight {
-
-	}
-
-	// {[0,0]} expands to [1,1] (everything from [0,0] to [1,1] less [0,0])
-	// maybe [x, y] expands to [x+1, y+1]
-	// [1,1] expands to [0
 	return result
 }
 
@@ -157,8 +106,6 @@ func filterCharsA(s []string) bool {
 
 func p03a(re *regexp.Regexp, data [][]byte) int {
 	var total int
-	// Length, width of data
-	l, w := len(data), len(data[0])
 
 	// Collect all numbers as []Point
 	for i, line := range data {
@@ -179,30 +126,8 @@ func p03a(re *regexp.Regexp, data [][]byte) int {
 				p(err)
 				total += n
 			}
-
-			/*
-				func(s []string) bool {
-				// Filter out '.', digits, if stuff remains is true
-					strings.Contains(
-				}
-
-			*/
-			// Find unique strings in []Point using safe lookups. Cache results for future usage maybe
 		}
 
-	}
-	for i := 0; i < l; i++ {
-		v := re.FindAllIndex(data[i], -1)
-
-		// for _, num := range v {
-
-		// }
-
-		_, _ = v, w
-		// What is the current number?
-
-		// Done with line once it has been scanned
-		//i++
 	}
 	return total
 }
@@ -214,22 +139,7 @@ func main() {
 	lines, err := Scan(file)
 	p(err)
 
-	/*
-		data, err := ScanNoSplit(file)
-		p(err)
-		v := re.FindAllIndex(data, -1)
-
-		_ = v
-		//fmt.Println(v)
-		fmt.Println(Point{0, 0}.adjacency())
-	*/
-
 	fmt.Println(p03a(re, lines))
-	// Map with last index of length and width of scanned file
-
-	// Maybe like a 2d matrix with bounds
-	// Start with
-	// '.' is not a symbol
 }
 
 func p(err error) {
@@ -245,14 +155,6 @@ func Scan(file string) ([][]byte, error) {
 		return nil, err
 	}
 	return bytes.Split(data, []byte("\n")), nil
-}
-
-func ScanNoSplit(file string) ([]byte, error) {
-	data, err := os.ReadFile(file)
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
 }
 
 // UniqAdjacentChars returns unique characters in data surrounding points. Is safe with OOB indices on points
