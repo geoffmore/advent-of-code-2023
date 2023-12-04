@@ -32,7 +32,7 @@ func ProblemA(pattern string, data [][]byte) int {
 		winningNums := strings2Ints(strings.Split(string(groups["winningNumsStr"]), " "))
 		inputNums := strings2Ints(strings.Split(string(groups["inputNumsStr"]), " "))
 
-		c := foo(inputNums, winningNums)
+		c := aoclib.ContainCount(inputNums, winningNums)
 		if c > 0 {
 			// Subtract 1 from c to account for the initial base of 1 in points
 			c -= 1
@@ -57,26 +57,5 @@ func strings2Ints(strs []string) []int {
 		}
 	}
 
-	return result
-}
-
-// TODO - make this compare on strings instead of ints since equality is checked and not values
-// TODO - make this generic
-// foo returns how many values in input exist in reference
-func foo(input []int, reference []int) int {
-	var result int
-
-	// Build a map of desired values
-	// TODO - generic type should be comparable
-	m := make(map[int]bool)
-	for _, v := range reference {
-		m[v] = true
-	}
-	// Iterate over input and increment if a match is found
-	for _, v := range input {
-		if m[v] {
-			result++
-		}
-	}
 	return result
 }
