@@ -15,13 +15,22 @@ func PanicIf(err error) {
 	}
 }
 
-// Scan takes a file name, opens it, and returns the data from the file split by newlines
-func Scan(file string) ([][]byte, error) {
+// ScanLines takes a file name, opens it, and returns the data from the file split by newlines
+func ScanLines(file string) ([][]byte, error) {
 	data, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
 	return bytes.Split(data, []byte("\n")), nil
+}
+
+// Scan takes a file name, opens it, and returns the data from the file
+func Scan(file string) ([]byte, error) {
+	data, err := os.ReadFile(file)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }
 
 func B2i(b []byte) (int, error) {

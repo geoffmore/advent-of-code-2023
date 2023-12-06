@@ -10,7 +10,7 @@ const pattern = "CHANGEME"
 const file = "input.txt"
 
 func main() {
-	lines, err := aoclib.Scan(file)
+	lines, err := aoclib.ScanLines(file)
 	aoclib.PanicIf(err)
 
 	fmt.Println("Problem A: ", ProblemA(pattern, lines))
