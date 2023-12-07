@@ -37,6 +37,17 @@ func B2i(b []byte) (int, error) {
 	return strconv.Atoi(string(b))
 }
 
+// BytesToInts parses bytes as ints and returns values that could be parsed
+func BytesToInts(data [][]byte) []int {
+	var result []int
+	for _, b := range data {
+		if n, err := B2i(b); err == nil {
+			result = append(result, n)
+		}
+	}
+	return result
+}
+
 // Intersect finds the elem in reference that exist in input and returns that. Limited to comparable because of map generation
 func Intersect[K comparable](input []K, ref []K) []K {
 	var result []K
