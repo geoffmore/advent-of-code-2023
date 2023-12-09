@@ -19,3 +19,7 @@
 
 # Go workspace file
 go.work
+
+# AoC inputs to comply with ToS
+sample.txt
+input.txt

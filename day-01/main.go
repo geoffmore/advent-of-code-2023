@@ -11,7 +11,7 @@ import (
 	"strconv"
 )
 
-const file = "01_input.txt"
+const file = "input.txt"
 
 // https://github.com/google/re2/wiki/Syntax
 // Does not correctly match twoneight as 3 matches, so cannot be used in regexp.FindAll

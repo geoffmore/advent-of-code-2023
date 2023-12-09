@@ -16,12 +16,10 @@ const (
 
 	outerPattern = "Game (?P<gameNum>[[:digit:]]{1,}): (?P<sets>.*)"
 	colorPattern = "(?P<count>[[:digit:]]{1,}) (?P<color>.*)"
-	file         = "02_input.txt"
+	file         = "input.txt"
 )
 
 // Game N: x green, y blue, z red; ...
-// keep a total of each color per game. Once a color exceeds the set limit, that game is not possible.
-// If the game is possible, add N to total
 type reg map[string]*regexp.Regexp
 
 // https://stackoverflow.com/questions/44406077
@@ -96,40 +94,6 @@ func main() {
 
 		gameSetTotal += mapProduct(setMax)
 
-		/*
-			for _, color := range bytes.Split(sets, []byte(",")) {
-				colorMap := patternToMap(patterns["color"], color)
-				count, err := strconv.Atoi(string(colorMap["count"]))
-				p(err)
-				colorCounts[string(colorMap["color"])] += count
-			}
-		*/
-
-		/*
-			for _, set := range bytes.Split(sets, []byte(";")) {
-				for _, color := range bytes.Split(set, []byte(",")) {
-					v := patterns["color"].FindAllSubmatch(color, -1)
-					rv := make(map[string][]byte)
-					for j, n := range patterns["color"].SubexpNames() {
-						if j != 0 && n != "" {
-							rv[n] = v[0][j]
-						}
-					}
-					c, err := strconv.Atoi(string(rv["count"]))
-					p(err)
-					colorCounts[string(rv["color"])] += c
-				}
-			}
-		*/
-
-		/*
-			if colorCounts["red"] <= redCubes &&
-				colorCounts["green"] <= greenCubes &&
-				colorCounts["blue"] <= blueCubes {
-				gameNumTotal += gameNum
-				fmt.Printf("%d ", gameNum)
-			}
-		*/
 	}
 	fmt.Println(gameSetTotal)
 }

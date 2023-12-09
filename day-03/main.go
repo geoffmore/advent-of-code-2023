@@ -9,9 +9,9 @@ import (
 	"strconv"
 )
 
-// const file = "03_sample.txt"
+// const file = "sample.txt"
 
-const file = "03_input.txt"
+const file = "input.txt"
 
 const patternA = "([[:digit:]]{1,})"
 

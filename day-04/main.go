@@ -10,10 +10,10 @@ import (
 )
 
 const pattern = "Card[[:blank:]]{1,}(?P<cardNum>[[:digit:]]{1,}): (?P<winningNumsStr>.*) \\| (?P<inputNumsStr>.*)"
-const file = "04_input.txt"
+const file = "input.txt"
 
 func main() {
-	lines, err := aoclib.Scan(file)
+	lines, err := aoclib.ScanLines(file)
 	aoclib.PanicIf(err)
 
 	fmt.Println("Problem A: ", ProblemA(pattern, lines))

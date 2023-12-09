@@ -6,13 +6,13 @@ import (
 )
 
 const (
-	fileTest  = "04_sample.txt"
+	fileTest  = "sample.txt"
 	solutionA = 13
 	solutionB = 30
 )
 
 func TestProblemA(t *testing.T) {
-	lines, err := aoclib.Scan(fileTest)
+	lines, err := aoclib.ScanLines(fileTest)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -22,7 +22,7 @@ func TestProblemA(t *testing.T) {
 }
 
 func TestProblemB(t *testing.T) {
-	lines, err := aoclib.Scan(fileTest)
+	lines, err := aoclib.ScanLines(fileTest)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
