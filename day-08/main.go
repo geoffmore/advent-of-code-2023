@@ -65,10 +65,68 @@ func unmarshalProblem(pattern, file string) problemStruct {
 }
 
 func ProblemA(pattern string, file string) int {
-	var total int
-
-	startIdx, endIdx := "AAA", "ZZZ"
 	p := unmarshalProblem(pattern, file)
+	return p.pathLen("AAA")
+}
+
+func ProblemB(pattern string, file string) int {
+	p := unmarshalProblem(pattern, file)
+
+	idxs := p.startIdxs
+	iters := make([]int, len(idxs))
+	bases := make([]int, len(idxs))
+
+	for i, idx := range idxs {
+		// coincidence - iters[i] is always prime and len(p.instructions) is always prime, so LCD never works
+		iters[i] = p.pathLen(idx)
+		bases[i] = iters[i] / len(p.instructions) // This integer division makes no sense
+	}
+
+	v := len(p.instructions)
+	for _, base := range bases {
+		// Accommodate smaller datasets
+		if base != len(p.instructions) {
+			v *= base
+		}
+	}
+	return v
+
+	/*
+		for {
+			for _, dir := range p.instructions {
+				// Assign all idxs
+				for i := 0; i < len(idxs); i++ {
+					// Brute force method. Can be improved by finding the LCD amongst each starting point (kinda)
+					idxs[i] = p.path[idxs[i]][dir]
+				}
+
+				total++
+				if c := endsWithAll(idxs, "Z"); c == len(idxs) {
+					return total
+				} else {
+					if c > len(idxs)-2 {
+						fmt.Printf("Current indexes are '%v'. Total is %d. Current matches are %d/%d\n", idxs, total, c, len(idxs))
+					}
+				}
+			}
+		}
+	*/
+}
+
+// endsWith checks if string s ends with string c (assuming c is a char)
+func endsWith(s, c string) bool {
+	// Check for empty string, then check that the last char in str matches s
+	return !(s == "" || string(s[len(s)-1]) != c)
+}
+
+func (p *problemStruct) pathLen(initialKey string) int {
+
+	// initialKey not in map. Unable to iterate
+	if _, ok := p.path[initialKey]; !ok {
+		return -1
+	}
+	var total int
+	startIdx := initialKey
 
 	idx := startIdx
 	var next string
@@ -78,50 +136,9 @@ func ProblemA(pattern string, file string) int {
 			idx = next
 
 			total++
-			if idx == endIdx {
+			if endsWith(idx, "Z") {
 				return total
 			}
 		}
 	}
-	// Return -1 if a path to endIdx could not be found
-	return -1
-}
-
-func ProblemB(pattern string, file string) int {
-	var total int
-
-	p := unmarshalProblem(pattern, file)
-
-	idxs := p.startIdxs
-	for {
-		for _, dir := range p.instructions {
-			// Assign all idxs
-			for i := 0; i < len(idxs); i++ {
-				// Brute force method. Can be improved by finding the LCD amongst each starting point (kinda)
-				idxs[i] = p.path[idxs[i]][dir]
-			}
-
-			total++
-			if endsWithAll(idxs, "Z") {
-				return total
-			} else {
-				fmt.Println(idxs, total)
-			}
-		}
-	}
-	// Return -1 if a path to endIdx could not be found
-	return -1
-}
-
-func endsWithAll(strs []string, s string) bool {
-	if len(strs) == 0 {
-		return false
-	}
-	for _, str := range strs {
-		// Check for empty string, then check that the last char in str matches s
-		if str == "" || string(str[len(str)-1]) != s {
-			return false
-		}
-	}
-	return true
 }
