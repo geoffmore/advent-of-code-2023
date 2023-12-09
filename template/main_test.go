@@ -27,6 +27,6 @@ func TestProblemB(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 	if got := ProblemB(pattern, lines); got != solutionB {
-		t.Errorf("Problem A with sample input should return value '%d'. Got '%d'", solutionA, got)
+		t.Errorf("Problem B with sample input should return value '%d'. Got '%d'", solutionB, got)
 	}
 }
