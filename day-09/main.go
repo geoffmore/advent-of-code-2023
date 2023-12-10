@@ -4,17 +4,15 @@ import (
 	"fmt"
 	"github.com/geoffmore/advent-of-code-2023/aoclib"
 	"regexp"
+	"slices"
 )
 
 const pattern = "(-?[[:digit:]]{1,})"
 const file = "input.txt"
 
 func main() {
-	lines, err := aoclib.ScanLines(file)
-	aoclib.PanicIf(err)
-
 	fmt.Println("Problem A: ", ProblemA(pattern, file))
-	fmt.Println("Problem B: ", ProblemB(pattern, lines))
+	fmt.Println("Problem B: ", ProblemB(pattern, file))
 }
 
 // problem stores a set of numbers in elem 0 and their diffs in successive slices
@@ -56,7 +54,7 @@ func diffs(nums []int) []int {
 }
 
 // unmarshalProblem takes a file and regex pattern and results an array of problem
-func unmarshalProblem(pattern, file string) problemStruct {
+func unmarshalProblem(pattern, file string, reverse bool) problemStruct {
 	var p problemStruct
 
 	lines, err := aoclib.ScanLines(file)
@@ -65,6 +63,9 @@ func unmarshalProblem(pattern, file string) problemStruct {
 
 	for _, line := range lines {
 		v := aoclib.BytesToInts(re.FindAll(line, -1))
+		if reverse {
+			slices.Reverse(v)
+		}
 		p.problems = append(p.problems, problem{v})
 	}
 	return p
@@ -96,16 +97,11 @@ func funcA(p problemStruct) int {
 }
 
 func ProblemA(pattern string, file string) int {
-	p := unmarshalProblem(pattern, file)
+	p := unmarshalProblem(pattern, file, false)
 	return funcA(p)
 }
 
-func ProblemB(pattern string, data [][]byte) int {
-	var total int
-	re := regexp.MustCompile(pattern)
-
-	for _, line := range data {
-		_, _ = line, re
-	}
-	return total
+func ProblemB(pattern string, file string) int {
+	p := unmarshalProblem(pattern, file, true)
+	return funcA(p)
 }
